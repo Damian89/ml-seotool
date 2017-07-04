@@ -75,3 +75,7 @@ python3 tool.py distances "4k fernseher"<br />
 ### Stoplisten
 
 In data/statics findet man einige Stoplisten, die automatisch eingelesen und verwendet werden. Je nach Case lohnt sich da was rein/rauszunehmen. Sieht man dann meist während der Ergebnisse, dass Crap dabei ist. Dann einfach Datei anpassen und prepare.py + train.py, wie oben beschrieben, ausführen.
+
+### Google Scraping
+
+Zu schnelles Scrapen führt bei Google schnell zum Ausschluss. Ich schalge max. jede 2 Minuten vor.
