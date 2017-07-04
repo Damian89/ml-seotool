@@ -69,3 +69,9 @@ Auch hier kann man allesauf einmal mit "show-results.sh" anzeigen lassen. Zuvor 
 python3 tool.py top-topics "4k fernseher" <br />
 python3 tool.py best-doc "4k fernseher"<br />
 python3 tool.py distances "4k fernseher"<br />
+
+## Sonstiges
+
+### Stoplisten
+
+In data/statics findet man einige Stoplisten, die automatisch eingelesen und verwendet werden. Je nach Case lohnt sich da was rein/rauszunehmen. Sieht man dann meist während der Ergebnisse, dass Crap dabei ist. Dann einfach Datei anpassen und prepare.py + train.py, wie oben beschrieben, ausführen.
