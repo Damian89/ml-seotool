@@ -10,7 +10,7 @@ Simples Tool, das einige ML/Statistik Algorithmen für die Analyse von Textdokum
 
 ## Algorithmen
 - Latent Semantic Indexing via Gensim
--- Verwendungng: 
+    - asd
 - TFIDF + Latent Semantic Indexing via Gensim
 
 - Latent Dirichlet Allocation via Gensim
