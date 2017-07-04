@@ -1,0 +1,7 @@
+*pycache*
+.vscode
+data/csv/*
+data/models/*
+!data/models/.gitkeep
+!data/csv/.gitkeep
+.git
