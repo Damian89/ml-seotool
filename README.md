@@ -1,4 +1,4 @@
-#Machine Learning/Statistik SEO Tool
+# Machine Learning/Statistik SEO Tool
 
 Simples Tool, das einige ML/Statistik Algorithmen für die Analyse von Textdokumenten verwendet. Das ganze ist recht "modular" aufgebaut - von einem Python-Noob :P
 
@@ -12,22 +12,22 @@ Simples Tool, das einige ML/Statistik Algorithmen für die Analyse von Textdokum
 
 ## Algorithmen
 
-- Latent Semantic Indexing via Gensim
+- Latent Semantic Indexing via <strong>Gensim</strong>
     - Allgemein für Transformation der Corpi
-- TFIDF + Latent Semantic Indexing via Gensim
+- TFIDF + Latent Semantic Indexing via <strong>Gensim</strong>
     - Themen-Extraktion
     - Bestes Dokument zur Suche
-- Latent Dirichlet Allocation via Gensim
+- Latent Dirichlet Allocation via <strong>Gensim</strong>
     - Top Topic Extraction
     - Bestes Dokument zur Suche
-- Hierarchical Dirichlet Process via Gensim
+- Hierarchical Dirichlet Process via <strong>Gensim</strong>
     - Top Topic Extraction
     - Bestes Dokument zur Suche
-- TFIDF + Latent Dirichlet Allocation via Sklearn
+- TFIDF + Latent Dirichlet Allocation via <strong>Sklearn</strong>
     - Top Topic Extraction
-- TFIDF + Non-negative matrix factorization
+- TFIDF + Non-negative matrix factorization via <strong>Sklearn</strong>
     - Top Topic Extraction
-- Spotify Annoy
+- Approximate Nearest Neighbors via <strong>Spotify Annoy</strong>
     - Bestes Dokument zur Suche
     - Distanz zwischen Dokumenten
 
