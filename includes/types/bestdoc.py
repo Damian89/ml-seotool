@@ -82,6 +82,7 @@ def init_bestdoc():
         )
     )
 
+    
     save_path_models = base_path + "/data//models/" + slug + "/dict/"
     train_folder = base_path + "/data//models/" + slug + "/trained/"
     doc_path = base_path + "/data/csv/" + slug + "/content.csv"
@@ -98,6 +99,9 @@ def init_bestdoc():
     dictionary = corpora.Dictionary.load(save_path_models + "dictionary.dict")
     corpus = corpora.MmCorpus(save_path_models + "corpus.mm")
 
+    query_to_check_against = sys.argv[3] if len(sys.argv) >= 4 else query
+    query_to_check_against = str(query_to_check_against)
+
     # No commenting necessary - its always loading the model
     # and get the top docs based on query and model
 
@@ -106,7 +110,7 @@ def init_bestdoc():
     model = models.HdpModel.load(train_folder + "hdpmodel.model")
 
     sumrating = make_best_doc(
-        query,
+        query_to_check_against,
         model,
         corpus,
         dictionary,
@@ -119,7 +123,7 @@ def init_bestdoc():
     model = models.LsiModel.load(train_folder + "tfidf-lsi.model")
 
     sumrating = make_best_doc(
-        query,
+        query_to_check_against,
         model,
         corpus,
         dictionary,
@@ -127,19 +131,20 @@ def init_bestdoc():
         sumrating
     )
 
+   
     print("")
     print("Method: Latent Dirichlet Allocation")
     model = models.LdaModel.load(train_folder + "lda.model")
 
     sumrating = make_best_doc(
-        query,
+        query_to_check_against,
         model,
         corpus,
         dictionary,
         doc_path,
         sumrating
     )
-
+    
     # Spotify Annoy is a litte more complex
 
     # Get number of lines based on document count
@@ -177,7 +182,7 @@ def init_bestdoc():
     index_annoy.load(train_folder + 'annoy.model')
 
     # Transform search to lsi vecor
-    vec_bow = dictionary.doc2bow(query.lower().split())
+    vec_bow = dictionary.doc2bow(query_to_check_against.lower().split())
     vec_lsi = lsi[vec_bow]
 
     # We need this to get the article url/name - vectors tend to be hard to read/interpret
@@ -216,3 +221,5 @@ def init_bestdoc():
         rating = str(ratingdata[1])
         url = ratingdata[0]
         print(rating + " " + url)
+
+    print("Q: "+query_to_check_against)

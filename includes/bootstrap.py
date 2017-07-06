@@ -13,7 +13,6 @@ from includes.types.scrape import init_scrape
 from includes.types.toptopics import init_toptopic
 from includes.types.train import init_train
 
-
 def main():
     """ Entry point for "ml-seotool" """
 
@@ -29,17 +28,24 @@ def main():
 
     if tool_type == 'scrape':
         init_scrape()
+        
     elif tool_type == 'extract':
         init_extract()
+
     elif tool_type == 'prepare':
         init_prepare()
+
     elif tool_type == 'train':
         init_train()
+
     elif tool_type == 'top-topics':
         init_toptopic()
+
     elif tool_type == 'best-doc':
         init_bestdoc()
+
     elif tool_type == 'distances':
         init_distances()
+
     elif tool_type == 'clear':
         init_clear()
