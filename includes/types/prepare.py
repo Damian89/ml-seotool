@@ -49,6 +49,7 @@ def tokenize_content(file_to_content, stopword_list, token_min_length, token_min
             # include term ony, when length bigger than min_length
             tokens = [token for token in tokens if len(token) > token_min_length]
 
+            # Exclude all links from within text
             tokens = [token for token in tokens if not token.startswith('http')]
 
             # You can use this to remove digit-only terms
