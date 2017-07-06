@@ -137,6 +137,7 @@ def extract_content_from_urls(urllist_file, newurllist_file, contentfile, max_li
 
     write_file = open(contentfile, 'w')
     write_url_file = open(newurllist_file, 'w')
+    links_done = []
 
     with open(urllist_file, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -144,12 +145,18 @@ def extract_content_from_urls(urllist_file, newurllist_file, contentfile, max_li
         links_skipped = 0
         for row in reader:
 
+
             if current_link > max_links - 1:
                 break
 
             link = row[0]
             area = row[1]
 
+            if link in links_done:
+                continue
+
+            links_done.append(link)
+            
             print("Currently: " + link)
 
             # try to extract the content of every link based on give class, id or simple element (div, body, ...)

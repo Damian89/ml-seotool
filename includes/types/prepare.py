@@ -5,7 +5,7 @@ import csv
 import os
 import pickle
 import sys
-
+from collections import defaultdict
 from gensim import corpora
 
 from nltk.tokenize import PunktSentenceTokenizer, RegexpTokenizer
@@ -16,7 +16,7 @@ from slugify import slugify
 
 csv.field_size_limit(sys.maxsize)
 
-def tokenize_content(file_to_content, de_stop, custom_stoplist=[], add_stoplist=[], token_min_length=0):
+def tokenize_content(file_to_content, stopword_list, token_min_length, token_min_count):
     """ Tokenize content using different stoplists and tokenizers """
 
     """
@@ -43,14 +43,8 @@ def tokenize_content(file_to_content, de_stop, custom_stoplist=[], add_stoplist=
             #tokens = [p_stemmer.stem(token) for token in tokens]
             #tokens = [s_stemmer.stem(token) for token in tokens]
 
-            # include term only, when not in de_stop list
-            tokens = [token for token in tokens if not token in de_stop]
-
-            # include term only, when not in custom_stoplist
-            tokens = [token for token in tokens if not token in custom_stoplist]
-
-            # include term only, when not in add_stoplist
-            tokens = [token for token in tokens if not token in add_stoplist]
+            # include term only, when not in stopword_list
+            tokens = [token for token in tokens if not token in stopword_list]
 
             # include term ony, when length bigger than min_length
             tokens = [token for token in tokens if len(token) > token_min_length]
@@ -60,7 +54,13 @@ def tokenize_content(file_to_content, de_stop, custom_stoplist=[], add_stoplist=
 
             terms.append(tokens)
 
-    return terms
+    frequency = defaultdict(int)
+    
+    for termgroup in terms:
+        for term in termgroup:
+            frequency[term] += 1
+
+    return [[term for term in termgroups if frequency[term] >= token_min_count] for termgroups in terms]
 
 
 def init_prepare():
@@ -113,6 +113,13 @@ def init_prepare():
     token_min_length = sys.argv[3] if len(sys.argv) >= 4 else 3
     token_min_length = int(token_min_length)
 
+    # set the min occurence count for a word
+    token_min_count = sys.argv[4] if len(sys.argv) >= 5 else 1
+    token_min_count = int(token_min_count)
+
+    # concatenate stoplists
+    stopword_list = de_stop + custom_stoplist + add_stoplist
+
     """
     Part 1: Prepare input data/content for gensim ml algorithms
     """
@@ -120,10 +127,9 @@ def init_prepare():
     # get tokens/terms
     terms = tokenize_content(
         file_to_content=file_to_content,
-        de_stop=de_stop,
-        custom_stoplist=custom_stoplist,
-        add_stoplist=add_stoplist,
-        token_min_length=token_min_length
+        stopword_list=stopword_list,
+        token_min_length=token_min_length,
+        token_min_count=token_min_count,
     )
 
     # create dictionary and save for future use
@@ -138,15 +144,12 @@ def init_prepare():
     Part 2: Prepare data/content for some sklearn ml algorithms
     """
 
-    # concatenate stoplists
-    stopword_lists = de_stop + custom_stoplist + add_stoplist
-
     # use sklearns tfidf vecotrizer
     tfidf_vectorizer = TfidfVectorizer(
         max_df=0.95,
-        min_df=2,
+        min_df=token_min_count,
         max_features=100,
-        stop_words=stopword_lists
+        stop_words=stopword_list
     )
 
     # tokenize senctences using PunktSentenceTokenizer
