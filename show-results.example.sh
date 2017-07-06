@@ -1,4 +1,4 @@
-QUERY="dolby vision"
+QUERY="begriff"
 
 python3 tool.py top-topics "$QUERY"
 
