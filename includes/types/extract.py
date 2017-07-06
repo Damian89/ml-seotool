@@ -27,7 +27,11 @@ def get_site_content(url):
         }
     )
 
-    response = urllib.request.urlopen(req)
+    response = urllib.request.urlopen(
+        req,
+        timeout=4
+    )
+    
     return response.read().decode("utf-8", "ignore")
 
 
