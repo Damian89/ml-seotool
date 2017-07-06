@@ -50,10 +50,17 @@ Auf die Schnell kann man die "process-all.sh" öffnen und das Suchwort ändern. 
 
 <strong>Alternativ von Hand:</strong>
 
+<em>Scrapen:</em><br />
 python3 tool.py scrape "4k fernseher" <br />
-python3 tool.py extract "4k fernseher" 100 500 <br />
-python3 tool.py prepare "4k fernseher" 3 <br />
-python3 tool.py train "4k fernseher" 165 <br />
+
+<em>Extrahiere Content von min. 20 (der zuvor gescrapten Links), Minimale Anzahl von Wörtern muss 500 betragen:</em><br />
+python3 tool.py extract "4k fernseher" 20 500 <br />
+
+<em>Corpus vorbereiten - Mindestlänge der Wörter: 3 Zeichen, Mindestvorkommen der Wörter: 2x:</em><br />
+python3 tool.py prepare "4k fernseher" 3 2<br />
+
+<em>Trainiere Modelle für min. 45 Themen:</em><br />
+python3 tool.py train "4k fernseher" 45 <br />
 
 Die Parameter (meist Zahlen) definieren, meist wie viele Ergebnisse verwendet werden sollen, wie groß der Corpus sein soll, wie groß ein Wort min. sein muss. Im Quellcode gibt es eig. direkt konkrete Antwort.
 
