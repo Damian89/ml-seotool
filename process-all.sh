@@ -1,4 +1,4 @@
-QUERY="dolby vision"
+QUERY="dolby vision1"
 
 #python3 tool.py scrape "$QUERY"
 
