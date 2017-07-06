@@ -1,5 +1,6 @@
 SAVEDMODEL_QUERY="begriff"
-QUERY="keyword zum gegenprüfen"
+
+QUERY="keyword zum gegenprüfen, kann auch das gleiche wie savedmodel_query sein"
 
 python3 tool.py top-topics "$SAVEDMODEL_QUERY"
 
