@@ -12,6 +12,7 @@ from gensim import corpora, models, similarities
 import annoy
 from slugify import slugify
 
+csv.field_size_limit(sys.maxsize)
 
 def make_best_doc(search, model, corpus, dictionary, docfile, docrating):
     """ 

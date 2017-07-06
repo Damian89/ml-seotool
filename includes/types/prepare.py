@@ -14,6 +14,8 @@ from stop_words import get_stop_words
 from sklearn.feature_extraction.text import TfidfVectorizer
 from slugify import slugify
 
+csv.field_size_limit(sys.maxsize)
+
 def tokenize_content(file_to_content, de_stop, custom_stoplist=[], add_stoplist=[], token_min_length=0):
     """ Tokenize content using different stoplists and tokenizers """
 

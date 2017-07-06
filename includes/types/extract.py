@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup, Comment
 
 from slugify import slugify
 
+csv.field_size_limit(sys.maxsize)
 
 def get_site_content(url):
     """ request url and get site content """

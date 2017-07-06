@@ -11,6 +11,7 @@ from gensim import corpora
 import annoy
 from slugify import slugify
 
+csv.field_size_limit(sys.maxsize)
 
 def init_distances():
     """ Initialize distance calculater """
