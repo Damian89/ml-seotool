@@ -221,5 +221,3 @@ def init_bestdoc():
         rating = str(ratingdata[1])
         url = ratingdata[0]
         print(rating + " " + url)
-
-    print("Q: "+query_to_check_against)
