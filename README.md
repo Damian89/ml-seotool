@@ -80,10 +80,11 @@ Wichtig ist, dass process-all.sh zuvor ausgeführt wurde - damit die Modelle tra
 Auch hier kann man allesauf einmal mit "show-results.sh" anzeigen lassen. Zuvor den Suchbegriff analog der "process-all.py" anpassen.
 
 <strong>Alternativ von Hand:</strong>
-
-python3 tool.py top-topics "4k fernseher" <br />
-python3 tool.py best-doc "4k fernseher"<br />
-python3 tool.py distances "4k fernseher"<br />
+```
+python3 tool.py top-topics "4k fernseher"
+python3 tool.py best-doc "4k fernseher"
+python3 tool.py distances "4k fernseher"
+```
 
 ## Sonstiges
 
