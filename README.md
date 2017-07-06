@@ -44,7 +44,7 @@ Allgemein ist es empfehlenswert einfach auf die Fehlermeldungen zu achten und gg
 
 ## Verwendung
 
-Auf die Schnell kann man die "process-all.sh" öffnen und das Suchwort ändern. Anschließed ausführen via sh. Dabei wird für die Suchquery die Top 100 von google.de (!) heruntergeladen, anschließend wird jedes Ergebnis gecrawled und dessen Content extrahiert.
+Auf die Schnell kann man die "process-all.sh" öffnen und das Suchwort ändern. Anschließed ausführen via sh. Dabei wird für die Suchquery die Top 100 von google.de (!) heruntergeladen, anschließend wird jedes Ergebnis gecrawled und dessen Content extrahiert. Alle Daten werden in das sluggified Verzeichnis innerhalb von "data/" gespeichert. Daher ist der erste Parameter der Befehle meist die Suche mit der die Daten abgerufen wurden!
 
 <strong>Achtung:</strong> Das Tool erkennt recht simpel englische Texte und skipped solchen Content. Wenn anderes Vorgehen erwünscht ist, muss man die entsprechenden Dateien anpassen (extract.py). Gleiches gilt für die Extraktion der Top 100. Hier werden bestimmte Seiten übersprungen (youtube.com, .ru-Links, Foren, ...). Ist aber leicht anpassbar.
 
@@ -80,11 +80,21 @@ Wichtig ist, dass process-all.sh zuvor ausgeführt wurde - damit die Modelle tra
 Auch hier kann man allesauf einmal mit "show-results.sh" anzeigen lassen. Zuvor den Suchbegriff analog der "process-all.py" anpassen.
 
 <strong>Alternativ von Hand:</strong>
+<em>Extrahiert die Themenkomplexe:</em><br />
 ```
 python3 tool.py top-topics "4k fernseher"
-python3 tool.py best-doc "4k fernseher"
+```
+
+<em>Zeigt an, welche Dokuemten am besten auf ein Suchbegriff (hier "smart tv") passen:</em><br />
+```
+python3 tool.py best-doc "4k fernseher" "smart tv"
+```
+
+<em>Vergleicht die Distanz zw. allen Dokumenten:</em><br />
+```
 python3 tool.py distances "4k fernseher"
 ```
+
 
 ## Sonstiges
 
