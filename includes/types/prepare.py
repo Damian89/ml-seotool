@@ -6,8 +6,8 @@ import os
 import pickle
 import sys
 from collections import defaultdict
-from gensim import corpora
 
+from gensim import corpora
 from nltk.tokenize import PunktSentenceTokenizer, RegexpTokenizer
 from stop_words import get_stop_words
 
@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from slugify import slugify
 
 csv.field_size_limit(sys.maxsize)
+
 
 def tokenize_content(file_to_content, stopword_list, token_min_length, token_min_count, max_docs):
     """ Tokenize content using different stoplists and tokenizers """
@@ -32,14 +33,14 @@ def tokenize_content(file_to_content, stopword_list, token_min_length, token_min
     # load input data and parse every line/text -> tokens
     with open(file_to_content, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        current_row = 0;
+        current_row = 0
         for row in reader:
 
             if current_row >= max_docs:
                 break
 
             current_row += 1
-            
+
             # makes content lowercase
             document = row[1].lower()
 
@@ -54,18 +55,22 @@ def tokenize_content(file_to_content, stopword_list, token_min_length, token_min
             tokens = [token for token in tokens if not token in stopword_list]
 
             # include term ony, when length bigger than min_length
-            tokens = [token for token in tokens if len(token) > token_min_length]
+            tokens = [
+                token for token in tokens if len(token) > token_min_length
+            ]
 
             # Exclude all links from within text
-            tokens = [token for token in tokens if not token.startswith('http')]
+            tokens = [
+                token for token in tokens if not token.startswith('http')
+            ]
 
             # You can use this to remove digit-only terms
-            tokens = [token for token in tokens if not token.isdigit()]
+            #tokens = [token for token in tokens if not token.isdigit()]
 
             terms.append(tokens)
 
     frequency = defaultdict(int)
-    
+
     for termgroup in terms:
         for term in termgroup:
             frequency[term] += 1
@@ -104,21 +109,35 @@ def init_prepare():
     custom_stoplist = []
 
     with open(statics_path + "german-stopwords.txt", 'r') as csvfile:
+
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
         for row in reader:
+
             custom_stoplist.extend(row)
 
     slug_stoplist = []
 
     if os.path.exists(statics_path + slug + ".txt") is True:
+
         with open(statics_path + slug + ".txt", 'r') as csvfile:
+
             reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
             for row in reader:
+
                 slug_stoplist.extend(row)
     else:
         print('No slug-specific stoplist found, creating...')
+
         os.mknod(statics_path + slug + ".txt")
-        print('You can add stopwords to '+statics_path + slug + ".txt"+', and rerun training!')
+
+        print(
+            'You can add stopwords to ' +
+            statics_path +
+            slug +
+            ".txt" + ', and rerun training!'
+        )
 
     # load standard german stoplist
     de_stop = get_stop_words('de')
@@ -168,7 +187,7 @@ def init_prepare():
         min_df=token_min_count,
         max_features=100,
         stop_words=stopword_list,
-        ngram_range=(1,3),
+        ngram_range=(1, 3),
         sublinear_tf=True,
         norm='l2'
     )
@@ -187,8 +206,9 @@ def init_prepare():
                 break
 
             current_row += 1
-            
+
             tokens = PunktSentenceTokenizer().tokenize(row[1])
+
             for sent in tokens:
                 sentences.append(sent)
 
@@ -199,4 +219,9 @@ def init_prepare():
     pickle.dump(tfidf_tokens, open(save_path_models + "tfidf-tokens.sk", "wb"))
 
     # save this vectorizer for future use
-    pickle.dump(tfidf_vectorizer, open(save_path_models + "tfidf-vectorizer.sk", "wb"))
+    pickle.dump(
+        tfidf_vectorizer,
+        open(
+            save_path_models + "tfidf-vectorizer.sk", "wb"
+        )
+    )
