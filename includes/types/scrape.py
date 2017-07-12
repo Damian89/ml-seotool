@@ -66,6 +66,12 @@ def extract_links_from_google(google_content, savefile, options):
         if "google" in link:
             continue
 
+        if "ebay." in link:
+            continue
+
+        if "amazon." in link:
+            continue
+
         # skip also youtube links
         if "youtube.com" in link:
             continue

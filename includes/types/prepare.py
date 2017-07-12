@@ -16,7 +16,7 @@ from slugify import slugify
 
 csv.field_size_limit(sys.maxsize)
 
-def tokenize_content(file_to_content, stopword_list, token_min_length, token_min_count):
+def tokenize_content(file_to_content, stopword_list, token_min_length, token_min_count, max_docs):
     """ Tokenize content using different stoplists and tokenizers """
 
     """
@@ -32,7 +32,14 @@ def tokenize_content(file_to_content, stopword_list, token_min_length, token_min
     # load input data and parse every line/text -> tokens
     with open(file_to_content, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+        current_row = 0;
         for row in reader:
+
+            if current_row >= max_docs:
+                break
+
+            current_row += 1
+            
             # makes content lowercase
             document = row[1].lower()
 
@@ -53,7 +60,7 @@ def tokenize_content(file_to_content, stopword_list, token_min_length, token_min
             tokens = [token for token in tokens if not token.startswith('http')]
 
             # You can use this to remove digit-only terms
-            #tokens = [token for token in tokens if not token.isdigit()]
+            tokens = [token for token in tokens if not token.isdigit()]
 
             terms.append(tokens)
 
@@ -101,13 +108,17 @@ def init_prepare():
         for row in reader:
             custom_stoplist.extend(row)
 
-    # load additional stopwords from file
-    add_stoplist = []
+    slug_stoplist = []
 
-    with open(statics_path + "additionalwords.txt", 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        for row in reader:
-            add_stoplist.extend(row)
+    if os.path.exists(statics_path + slug + ".txt") is True:
+        with open(statics_path + slug + ".txt", 'r') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+            for row in reader:
+                slug_stoplist.extend(row)
+    else:
+        print('No slug-specific stoplist found, creating...')
+        os.mknod(statics_path + slug + ".txt")
+        print('You can add stopwords to '+statics_path + slug + ".txt"+', and rerun training!')
 
     # load standard german stoplist
     de_stop = get_stop_words('de')
@@ -120,8 +131,11 @@ def init_prepare():
     token_min_count = sys.argv[4] if len(sys.argv) >= 5 else 1
     token_min_count = int(token_min_count)
 
+    max_docs = sys.argv[5] if len(sys.argv) >= 6 else 100
+    max_docs = int(max_docs)
+
     # concatenate stoplists
-    stopword_list = de_stop + custom_stoplist + add_stoplist
+    stopword_list = de_stop + custom_stoplist + slug_stoplist
 
     """
     Part 1: Prepare input data/content for gensim ml algorithms
@@ -133,6 +147,7 @@ def init_prepare():
         stopword_list=stopword_list,
         token_min_length=token_min_length,
         token_min_count=token_min_count,
+        max_docs=max_docs
     )
 
     # create dictionary and save for future use
@@ -152,7 +167,10 @@ def init_prepare():
         max_df=0.95,
         min_df=token_min_count,
         max_features=100,
-        stop_words=stopword_list
+        stop_words=stopword_list,
+        ngram_range=(1,3),
+        sublinear_tf=True,
+        norm='l2'
     )
 
     # tokenize senctences using PunktSentenceTokenizer
@@ -160,9 +178,17 @@ def init_prepare():
 
     with open(file_to_content, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
+        current_row = 0
+
         for row in reader:
-            document = row[1].lower()
-            tokens = PunktSentenceTokenizer().tokenize(document)
+
+            if current_row >= max_docs:
+                break
+
+            current_row += 1
+            
+            tokens = PunktSentenceTokenizer().tokenize(row[1])
             for sent in tokens:
                 sentences.append(sent)
 
