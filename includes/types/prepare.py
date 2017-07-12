@@ -97,9 +97,10 @@ def init_prepare():
     )
 
     save_path = base_path + "/data/csv/" + slug + "/"
-    save_path_models = base_path + "/data//models/" + slug + "/dict/"
+    save_path_models = base_path + "/data/models/" + slug + "/dict/"
     statics_path = base_path + "/data/statics/"
     file_to_content = save_path + "content.csv"
+    slugstopword_path = base_path + "/data/slug-stopwords/" + slug + ".txt"
 
     # create dict dir if not existent
     if not os.path.exists(save_path_models):
@@ -118,9 +119,9 @@ def init_prepare():
 
     slug_stoplist = []
 
-    if os.path.exists(statics_path + slug + ".txt") is True:
+    if os.path.exists(slugstopword_path) is True:
 
-        with open(statics_path + slug + ".txt", 'r') as csvfile:
+        with open(slugstopword_path, 'r') as csvfile:
 
             reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
@@ -130,13 +131,12 @@ def init_prepare():
     else:
         print('No slug-specific stoplist found, creating...')
 
-        os.mknod(statics_path + slug + ".txt")
+        os.mknod(slugstopword_path)
 
         print(
             'You can add stopwords to ' +
-            statics_path +
-            slug +
-            ".txt" + ', and rerun training!'
+            slugstopword_path + 
+            ', and rerun training!'
         )
 
     # load standard german stoplist

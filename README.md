@@ -60,9 +60,9 @@ python3 tool.py scrape "4k fernseher"
 python3 tool.py extract "4k fernseher" 20 500
 ```
 
-<em>Corpus vorbereiten - Mindestlänge der Wörter: 3 Zeichen, Mindestvorkommen der Wörter: 2x:</em><br />
+<em>Corpus vorbereiten - Mindestlänge der Wörter: 3 Zeichen, Mindestvorkommen der Wörter: 2x, nutze 100 Dokumente, wenn verfügbar:</em><br />
 ```
-python3 tool.py prepare "4k fernseher" 3 2
+python3 tool.py prepare "4k fernseher" 3 2 100
 ```
 
 <em>Trainiere Modelle für min. 45 Themen:</em><br />
